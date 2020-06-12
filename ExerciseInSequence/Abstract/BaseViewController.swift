@@ -8,17 +8,23 @@
 
 import UIKit
 import RxSwift
-import SnapKit
-import Then
 
-class BaseViewController: UIViewController {
+class BaseViewController: UIViewController, Storyboarded {
     internal var coordinator: AppCoordinator?
     internal var disposeBag = DisposeBag()
     
     lazy private(set) var className: String = {
         return type(of: self).description().components(separatedBy: ".").last ?? ""
     }()
-            
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     deinit {
         print("DEINIT: \(self.className)")
     }
@@ -29,8 +35,7 @@ class BaseViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        print("PARK TEST viewdiLoad super")
+        super.viewDidLoad()        
         self.view.addSubview(self.contentView)
         self.contentView.snp.makeConstraints{
             if #available(iOS 11.0, *) {
@@ -49,6 +54,5 @@ class BaseViewController: UIViewController {
     }
     
     func customLoadView() {}
-    
     func customViewDidload() {}
 }

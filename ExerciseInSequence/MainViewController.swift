@@ -7,40 +7,42 @@
 //
 
 import UIKit
-import ReactorKit
 import SnapKit
 import Then
+import ReactorKit
 
-class MainViewController: BaseViewController, View {
+class MainViewController: BaseViewController, StoryboardView {
     let totalView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .blue
     }
     
-    override func loadView() {
-        super.loadView()
-        
-        self.view.addSubview(self.totalView)
-        self.totalView.snp.makeConstraints{
-            $0.edges.equalTo(self.view.safeAreaLayoutGuide)
-        }
+    init(reactor: MainViewControllerReactor) {
+        super.init()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func customLoadView() {
+        print("PARK TEST childCustomLoadView")
+    }
+    
+    override func customViewDidload() {
+                
     }
 
-    internal func bind(reactor: MainViewController) {
+    internal func bind(reactor: MainViewControllerReactor) {
         bindAction(reactor)
         bindState(reactor)
     }
     
-    private func bindAction(_ reactor: MainViewController) {
+    private func bindAction(_ reactor: MainViewControllerReactor) {
     
     }
     
-    private func bindState(_ reactor: MainViewController) {
+    private func bindState(_ reactor: MainViewControllerReactor) {
         
     }
 }
