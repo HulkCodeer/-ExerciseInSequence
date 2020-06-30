@@ -21,7 +21,7 @@ internal final class AppCoordinator: Coordinatable {
     }
     
     func startMain() {
-        let vc = MainViewController(reactor: MainViewControllerReactor())
+        let vc = MainViewController(reactor: MainViewReactor())
         vc.coordinator = self
         self.navigationController.pushViewController(vc, animated: false)
     }

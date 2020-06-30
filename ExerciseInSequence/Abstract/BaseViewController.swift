@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import SnapKit
 
 class BaseViewController: UIViewController, Storyboarded {
     internal var coordinator: AppCoordinator?
@@ -51,6 +52,12 @@ class BaseViewController: UIViewController, Storyboarded {
     override func loadView() {
         super.loadView()
         self.customLoadView()
+    }
+            
+    func createLineView() -> UIView {
+        let lineView = UIView()
+        lineView.backgroundColor = .gray
+        return lineView
     }
     
     func customLoadView() {}
