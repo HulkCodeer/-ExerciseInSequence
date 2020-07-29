@@ -99,16 +99,5 @@ internal final class MainViewController: BaseViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
     }
-    
-    func solution(_ x:Int, _ n:Int) -> [Int64] {
-        var numbers:[Int64] = []
-        var calculResult = 0
-        for i in 0..<n {
-            calculResult = x + (x * i)
-            numbers.append(Int64(calculResult))
-        }
-        
-        return numbers
-    }
 }
 
