@@ -8,6 +8,6 @@
 
 import UIKit
 
-internal final class SequenceTableViewCell: UITableViewCell {
+internal final class SequenceCell: UITableViewCell {
     
 }

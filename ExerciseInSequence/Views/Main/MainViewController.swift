@@ -11,8 +11,9 @@ import SnapKit
 import Then
 import RxCocoa
 import RxSwift
+import ReactorKit
 
-internal final class MainViewController: BaseViewController {
+internal final class MainViewController: BaseViewController, StoryboardView {
     private lazy var naviTotalView = UIView().then{
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -33,6 +34,7 @@ internal final class MainViewController: BaseViewController {
     
     init(reactor: MainViewReactor) {
         super.init()
+        self.reactor = reactor
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -65,6 +67,8 @@ internal final class MainViewController: BaseViewController {
             $0.top.equalTo(lineView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        sequenceTableView.register(SequenceCell.self, forCellReuseIdentifier: "sequenceCell")
     }
     
     override func customViewDidload() {
@@ -77,15 +81,34 @@ internal final class MainViewController: BaseViewController {
     }
     
     private func bindAction(_ reactor: MainViewReactor) {
-    
+        sequenceTableView.rx.contentOffset
+        .filter { [weak self] offset in
+            guard let self = self else { return false }
+            guard self.sequenceTableView.frame.height > 0 else { return false }
+            return offset.y + self.sequenceTableView.frame.height >= self.sequenceTableView.contentSize.height - 100
+        }
+        .map { _ in MainViewReactor.Action.loadNextPage }
+        .bind(to: reactor.action)
+        .disposed(by: disposeBag)
     }
     
     private func bindState(_ reactor: MainViewReactor) {
         reactor.state.map{ $0.repos }
             .bind(to: sequenceTableView.rx.items(cellIdentifier: "cell")) { _, repo, cell in
-                print("PARK TEST")
+                print("PARK TEST cell : \(cell)")
             }
             .disposed(by: disposeBag)
+    }
+    
+    func solution(_ x:Int, _ n:Int) -> [Int64] {
+        var numbers:[Int64] = []
+        var calculResult = 0
+        for i in 0..<n {
+            calculResult = x + (x * i)
+            numbers.append(Int64(calculResult))
+        }
+        
+        return numbers
     }
 }
 
